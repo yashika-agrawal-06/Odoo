@@ -1,6 +1,6 @@
 import { getPermissionMatrix } from "../lib/permissionCache.js";
 
-const LEVEL_RANK = { none: 0, view: 1, full: 2 };
+const LEVEL_RANK = { full: 2, none: 0, view: 1 };
 
 export function requirePermission(resource, minLevel = "view") {
   return async (req, res, next) => {
