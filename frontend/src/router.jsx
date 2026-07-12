@@ -1,54 +1,52 @@
-import {
-  createBrowserRouter,
-  Navigate,
-} from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 
-import AuthLayout from "./layouts/AuthLayout";
-import DashboardLayout from "./layouts/DashboardLayout";
-<!-- 
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import Employees from "./pages/Employees";
-import Organization from "./pages/Organization";
-import Settings from "./pages/Settings";
-import NotFound from "./pages/NotFound"; -->
+import AuthLayout from "./layouts/auth-layout";
+import DashboardLayout from "./layouts/dashboard-layout";
+import Dashboard from "./pages/dashboard";
+import Login from "./pages/login";
+import NotFound from "./pages/not-found";
+import Projects from "./pages/projects";
+import Reports from "./pages/reports";
+import Settings from "./pages/settings";
 
 export const router = createBrowserRouter([
-  <!-- {
-    element: <AuthLayout />,
+  {
     children: [
       {
-        path: "/",
         element: <Login />,
+        path: "/",
       },
     ],
+    element: <AuthLayout />,
   },
-
   {
-    path: "/dashboard",
-    element: <DashboardLayout />,
     children: [
       {
-        index: true,
         element: <Dashboard />,
+        index: true,
       },
       {
-        path: "employees",
-        element: <Employees />,
+        element: <Projects />,
+        path: "projects",
       },
       {
-        path: "organization",
-        element: <Organization />,
+        element: <Reports />,
+        path: "reports",
       },
       {
-        path: "settings",
         element: <Settings />,
+        path: "settings",
       },
     ],
-  }, -->
-
+    element: <DashboardLayout />,
+    path: "/dashboard",
+  },
   {
-    path: "*",
+    element: <Navigate replace to="/" />,
+    path: "/login",
+  },
+  {
     element: <NotFound />,
+    path: "*",
   },
 ]);

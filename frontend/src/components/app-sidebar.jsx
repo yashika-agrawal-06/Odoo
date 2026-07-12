@@ -13,6 +13,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import { ModeToggle } from "@/components/mode-toggle"
 import { GalleryVerticalEndIcon, AudioLinesIcon, TerminalIcon, TerminalSquareIcon, BotIcon, BookOpenIcon, Settings2Icon, FrameIcon, PieChartIcon, MapIcon } from "lucide-react"
 
 // This is sample data.
@@ -178,7 +179,11 @@ export function AppSidebar({
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <ModeToggle className="= hidden group-data-[collapsible=icon]:flex" />
+        <div className="flex items-center gap-2">
+          <NavUser user={data.user} />
+          <ModeToggle className="group-data-[collapsible=icon]:hidden" />
+        </div>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
