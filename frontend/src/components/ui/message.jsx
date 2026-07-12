@@ -1,101 +1,86 @@
-import * as React from "react"
+import { cn } from "@/lib/utils";
 
-import { cn } from "@/lib/utils"
-
-function MessageGroup({
-  className,
-  ...props
-}) {
+function MessageGroup({ className, ...props }) {
   return (
     <div
-      data-slot="message-group"
       className={cn("flex min-w-0 flex-col gap-2", className)}
-      {...props} />
+      data-slot="message-group"
+      {...props}
+    />
   );
 }
 
-function Message({
-  className,
-  align = "start",
-  ...props
-}) {
+function Message({ className, align = "start", ...props }) {
   return (
     <div
-      data-slot="message"
-      data-align={align}
       className={cn(
         "group/message relative flex w-full min-w-0 gap-2 text-sm data-[align=end]:flex-row-reverse",
         className
       )}
-      {...props} />
+      data-align={align}
+      data-slot="message"
+      {...props}
+    />
   );
 }
 
-function MessageAvatar({
-  className,
-  ...props
-}) {
+function MessageAvatar({ className, ...props }) {
   return (
     <div
-      data-slot="message-avatar"
       className={cn(
         "flex w-fit min-w-8 shrink-0 items-center justify-center self-end overflow-hidden rounded-full bg-muted group-has-data-[slot=message-footer]/message:-translate-y-8",
         className
       )}
-      {...props} />
+      data-slot="message-avatar"
+      {...props}
+    />
   );
 }
 
-function MessageContent({
-  className,
-  ...props
-}) {
+function MessageContent({ className, ...props }) {
   return (
     <div
+      className={cn(
+        "wrap-break-word flex w-full min-w-0 flex-col gap-2.5 group-data-[align=end]/message:*:data-slot:self-end",
+        className
+      )}
       data-slot="message-content"
-      className={cn(
-        "flex w-full min-w-0 flex-col gap-2.5 wrap-break-word group-data-[align=end]/message:*:data-slot:self-end",
-        className
-      )}
-      {...props} />
+      {...props}
+    />
   );
 }
 
-function MessageHeader({
-  className,
-  ...props
-}) {
+function MessageHeader({ className, ...props }) {
   return (
     <div
+      className={cn(
+        "flex min-w-0 max-w-full items-center px-3.5 font-medium text-muted-foreground text-xs group-has-data-[variant=ghost]/message:px-0",
+        className
+      )}
       data-slot="message-header"
-      className={cn(
-        "flex max-w-full min-w-0 items-center px-3.5 text-xs font-medium text-muted-foreground group-has-data-[variant=ghost]/message:px-0",
-        className
-      )}
-      {...props} />
+      {...props}
+    />
   );
 }
 
-function MessageFooter({
-  className,
-  ...props
-}) {
+function MessageFooter({ className, ...props }) {
   return (
     <div
-      data-slot="message-footer"
       className={cn(
-        "flex max-w-full min-w-0 items-center px-3.5 text-xs font-medium text-muted-foreground group-has-data-[variant=ghost]/message:px-0 group-data-[align=end]/message:justify-end",
+        "flex min-w-0 max-w-full items-center px-3.5 font-medium text-muted-foreground text-xs group-has-data-[variant=ghost]/message:px-0 group-data-[align=end]/message:justify-end",
         className
       )}
-      {...props} />
+      data-slot="message-footer"
+      {...props}
+    />
   );
 }
 
 export {
-  MessageGroup,
   Message,
   MessageAvatar,
   MessageContent,
   MessageFooter,
+  MessageGroup,
   MessageHeader,
-}
+};

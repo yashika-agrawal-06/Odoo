@@ -1,187 +1,134 @@
-"use client"
-
-import * as React from "react"
-
-import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
-import { NavUser } from "@/components/nav-user"
-import { TeamSwitcher } from "@/components/team-switcher"
+import {
+  AudioLinesIcon,
+  BarChart3,
+  Fuel,
+  GalleryVerticalEndIcon,
+  LayoutDashboard,
+  Route,
+  Settings,
+  TerminalIcon,
+  Truck,
+  Users,
+  Wrench,
+} from "lucide-react";
+import * as React from "react";
+import { ModeToggle } from "@/components/mode-toggle";
+import { NavProjects } from "@/components/nav-projects";
+import { NavUser } from "@/components/nav-user";
+import { TeamSwitcher } from "@/components/team-switcher";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from "@/components/ui/sidebar"
-import { ModeToggle } from "@/components/mode-toggle"
-import { GalleryVerticalEndIcon, AudioLinesIcon, TerminalIcon, TerminalSquareIcon, BotIcon, BookOpenIcon, Settings2Icon, FrameIcon, PieChartIcon, MapIcon } from "lucide-react"
+} from "@/components/ui/sidebar";
+import { usePermissions } from "../context/PermissionsContext.jsx";
 
-// This is sample data.
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
+  projects: [
+    {
+      icon: <LayoutDashboard />,
+      name: "Dashboard",
+      url: "/dashboard",
+    },
+    {
+      icon: <Truck />,
+      name: "Fleet Registry",
+      resource: "fleet",
+      url: "/dashboard/fleet",
+    },
+    {
+      icon: <Users />,
+      name: "Drivers & Safety",
+      resource: "drivers",
+      url: "/dashboard/drivers",
+    },
+    {
+      icon: <Route />,
+      name: "Trip Dispatcher",
+      resource: "trips",
+      url: "/dashboard/trips",
+    },
+    {
+      icon: <Wrench />,
+      name: "Maintenance Log",
+      resource: "fleet",
+      url: "/dashboard/maintenance",
+    },
+    {
+      icon: <Fuel />,
+      name: "Fuel & Expenses",
+      resource: "fuel_expenses",
+      url: "/dashboard/finance",
+    },
+    {
+      icon: <BarChart3 />,
+      name: "Reports & Analytics",
+      resource: "analytics",
+      url: "/dashboard/analytics",
+    },
+    {
+      icon: <Settings />,
+      name: "Settings (RBAC)",
+      resource: "settings",
+      url: "/dashboard/settings",
+    },
+  ],
   teams: [
     {
-      name: "Acme Inc",
-      logo: (
-        <GalleryVerticalEndIcon />
-      ),
+      logo: <GalleryVerticalEndIcon />,
+      name: "TransitOps Inc.",
       plan: "Enterprise",
     },
     {
-      name: "Acme Corp.",
-      logo: (
-        <AudioLinesIcon />
-      ),
+      logo: <AudioLinesIcon />,
+      name: "Acme Logistics",
       plan: "Startup",
     },
     {
-      name: "Evil Corp.",
-      logo: (
-        <TerminalIcon />
-      ),
+      logo: <TerminalIcon />,
+      name: "Evil Corp Freight",
       plan: "Free",
     },
   ],
-  navMain: [
-    {
-      title: "Playground",
-      url: "#",
-      icon: (
-        <TerminalSquareIcon />
-      ),
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: (
-        <BotIcon />
-      ),
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: (
-        <BookOpenIcon />
-      ),
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: (
-        <Settings2Icon />
-      ),
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: (
-        <FrameIcon />
-      ),
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: (
-        <PieChartIcon />
-      ),
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: (
-        <MapIcon />
-      ),
-    },
-  ],
-}
+};
 
-export function AppSidebar({
-  ...props
-}) {
+export function AppSidebar({ ...props }) {
+  const { user, roleSlug, hasPermission } = usePermissions();
+
+  const filteredProjects = React.useMemo(
+    () =>
+      data.projects.filter((project) => {
+        if (!project.resource) {
+          return true;
+        }
+        return hasPermission(project.resource, "view");
+      }),
+    [hasPermission]
+  );
+
+  const navUserMock = React.useMemo(
+    () => ({
+      avatar: user?.image || "",
+      email: user?.email || "",
+      name: user?.name || "User",
+    }),
+    [user]
+  );
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        <NavProjects projects={filteredProjects} />
       </SidebarContent>
       <SidebarFooter>
         <ModeToggle className="= hidden group-data-[collapsible=icon]:flex" />
         <div className="flex items-center gap-2">
-          <NavUser user={data.user} />
+          <NavUser roleSlug={roleSlug} user={navUserMock} />
           <ModeToggle className="group-data-[collapsible=icon]:hidden" />
         </div>
       </SidebarFooter>
@@ -189,3 +136,4 @@ export function AppSidebar({
     </Sidebar>
   );
 }
+export default AppSidebar;
