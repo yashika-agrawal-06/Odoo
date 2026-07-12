@@ -5,8 +5,6 @@ export const vehicleStatusEnum = pgEnum("vehicle_status", ["available", "on_trip
 export const licenseCategoryEnum = pgEnum("license_category", ["lmv", "hmv"]);
 export const driverStatusEnum = pgEnum("driver_status", ["available", "on_trip", "off_duty", "suspended"]);
 
-// Normalized out of vehicles/drivers instead of a free-text "region" column
-// on every table — avoids typo'd duplicates ("Ahmedabad" vs "ahmedabad").
 export const regions = pgTable("regions", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull().unique(),
@@ -17,10 +15,10 @@ export const vehicles = pgTable(
   {
     id: uuid("id").defaultRandom().primaryKey(),
     regNo: text("reg_no").notNull().unique(),
-    name: text("name").notNull(), // e.g. "VAN-05"
+    name: text("name").notNull(), 
     type: vehicleTypeEnum("type").notNull(),
     capacityKg: numeric("capacity_kg", { precision: 10, scale: 2 }).notNull(),
-    odometerKm: integer("odometer_km").notNull().default(0), // maintained cache, see design notes
+    odometerKm: integer("odometer_km").notNull().default(0), 
     acquisitionCost: numeric("acquisition_cost", { precision: 12, scale: 2 }).notNull(),
     status: vehicleStatusEnum("status").notNull().default("available"),
     regionId: uuid("region_id").references(() => regions.id, { onDelete: "set null" }),
@@ -50,6 +48,6 @@ export const drivers = pgTable(
   },
   (t) => ({
     statusIdx: index("drivers_status_idx").on(t.status),
-    expiryIdx: index("drivers_license_expiry_idx").on(t.licenseExpiry), // for the license-expiry reminder bonus feature
+    expiryIdx: index("drivers_license_expiry_idx").on(t.licenseExpiry), 
   })
 );
