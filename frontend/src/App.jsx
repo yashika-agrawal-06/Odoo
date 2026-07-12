@@ -22,7 +22,7 @@ function App() {
           </p>
         </div>
         <button
-          className="counter"
+          className=" text-amber-300"
           onClick={() => setCount((count) => count + 1)}
           type="button"
         >
@@ -30,7 +30,7 @@ function App() {
         </button>
       </section>
 
-      <div className="ticks" />
+      <div className="ticks text-6xl text-amber-200" />
 
       <section id="next-steps">
         <div id="docs">
@@ -121,7 +121,7 @@ function App() {
         </div>
       </section>
 
-      <div className="ticks" />
+      <div className="ticks text-6xl text-amber-200" />
       <section id="spacer" />
     </>
   );
