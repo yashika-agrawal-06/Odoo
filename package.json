@@ -8,6 +8,7 @@
     "fix": "ultracite fix"
   },
   "dependencies": {
-    "lucide-react": "^1.24.0"
+    "lucide-react": "^1.24.0",
+    "react-router-dom": "^7.18.1"
   }
 }
