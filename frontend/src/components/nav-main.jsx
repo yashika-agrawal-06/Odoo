@@ -1,8 +1,9 @@
+import { ChevronRightIcon } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible"
+} from "@/components/ui/collapsible";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -12,27 +13,26 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "@/components/ui/sidebar"
-import { ChevronRightIcon } from "lucide-react"
+} from "@/components/ui/sidebar";
 
-export function NavMain({
-  items
-}) {
+export function NavMain({ items }) {
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible
-            key={item.title}
-            defaultOpen={item.isActive}
             className="group/collapsible"
-            render={<SidebarMenuItem />}>
-            <CollapsibleTrigger render={<SidebarMenuButton tooltip={item.title} />}>
+            defaultOpen={item.isActive}
+            key={item.title}
+            render={<SidebarMenuItem />}
+          >
+            <CollapsibleTrigger
+              render={<SidebarMenuButton tooltip={item.title} />}
+            >
               {item.icon}
               <span>{item.title}</span>
-              <ChevronRightIcon
-                className="ml-auto transition-transform duration-200 group-data-open/collapsible:rotate-90" />
+              <ChevronRightIcon className="ml-auto transition-transform duration-200 group-data-open/collapsible:rotate-90" />
             </CollapsibleTrigger>
             <CollapsibleContent>
               <SidebarMenuSub>

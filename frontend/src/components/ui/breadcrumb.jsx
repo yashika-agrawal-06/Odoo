@@ -1,60 +1,51 @@
-import * as React from "react"
-import { mergeProps } from "@base-ui/react/merge-props"
-import { useRender } from "@base-ui/react/use-render"
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
+import { ChevronRightIcon, MoreHorizontalIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-import { cn } from "@/lib/utils"
-import { ChevronRightIcon, MoreHorizontalIcon } from "lucide-react"
-
-function Breadcrumb({
-  className,
-  ...props
-}) {
+function Breadcrumb({ className, ...props }) {
   return (
     <nav
       aria-label="breadcrumb"
-      data-slot="breadcrumb"
       className={cn(className)}
-      {...props} />
+      data-slot="breadcrumb"
+      {...props}
+    />
   );
 }
 
-function BreadcrumbList({
-  className,
-  ...props
-}) {
+function BreadcrumbList({ className, ...props }) {
   return (
     <ol
-      data-slot="breadcrumb-list"
       className={cn(
-        "flex flex-wrap items-center gap-1.5 text-sm wrap-break-word text-muted-foreground sm:gap-2.5",
+        "wrap-break-word flex flex-wrap items-center gap-1.5 text-muted-foreground text-sm sm:gap-2.5",
         className
       )}
-      {...props} />
+      data-slot="breadcrumb-list"
+      {...props}
+    />
   );
 }
 
-function BreadcrumbItem({
-  className,
-  ...props
-}) {
+function BreadcrumbItem({ className, ...props }) {
   return (
     <li
-      data-slot="breadcrumb-item"
       className={cn("inline-flex items-center gap-1.5", className)}
-      {...props} />
+      data-slot="breadcrumb-item"
+      {...props}
+    />
   );
 }
 
-function BreadcrumbLink({
-  className,
-  render,
-  ...props
-}) {
+function BreadcrumbLink({ className, render, ...props }) {
   return useRender({
     defaultTagName: "a",
-    props: mergeProps({
-      className: cn("transition-colors hover:text-foreground", className),
-    }, props),
+    props: mergeProps(
+      {
+        className: cn("transition-colors hover:text-foreground", className),
+      },
+      props
+    ),
     render,
     state: {
       slot: "breadcrumb-link",
@@ -62,51 +53,45 @@ function BreadcrumbLink({
   });
 }
 
-function BreadcrumbPage({
-  className,
-  ...props
-}) {
+function BreadcrumbPage({ className, ...props }) {
   return (
     <span
+      aria-current="page"
+      aria-disabled="true"
+      className={cn("font-normal text-foreground", className)}
       data-slot="breadcrumb-page"
       role="link"
-      aria-disabled="true"
-      aria-current="page"
-      className={cn("font-normal text-foreground", className)}
-      {...props} />
+      {...props}
+    />
   );
 }
 
-function BreadcrumbSeparator({
-  children,
-  className,
-  ...props
-}) {
+function BreadcrumbSeparator({ children, className, ...props }) {
   return (
     <li
-      data-slot="breadcrumb-separator"
-      role="presentation"
       aria-hidden="true"
       className={cn("[&>svg]:size-3.5", className)}
-      {...props}>
-      {children ?? (
-        <ChevronRightIcon />
-      )}
+      data-slot="breadcrumb-separator"
+      role="presentation"
+      {...props}
+    >
+      {children ?? <ChevronRightIcon />}
     </li>
   );
 }
 
-function BreadcrumbEllipsis({
-  className,
-  ...props
-}) {
+function BreadcrumbEllipsis({ className, ...props }) {
   return (
     <span
+      aria-hidden="true"
+      className={cn(
+        "flex size-5 items-center justify-center [&>svg]:size-4",
+        className
+      )}
       data-slot="breadcrumb-ellipsis"
       role="presentation"
-      aria-hidden="true"
-      className={cn("flex size-5 items-center justify-center [&>svg]:size-4", className)}
-      {...props}>
+      {...props}
+    >
       <MoreHorizontalIcon />
       <span className="sr-only">More</span>
     </span>
@@ -115,10 +100,10 @@ function BreadcrumbEllipsis({
 
 export {
   Breadcrumb,
-  BreadcrumbList,
+  BreadcrumbEllipsis,
   BreadcrumbItem,
   BreadcrumbLink,
+  BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-  BreadcrumbEllipsis,
-}
+};
